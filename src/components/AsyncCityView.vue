@@ -99,9 +99,11 @@ let getWeatherData = async() => {
         const weatherData = await axios.get(
             `https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=7fca3d10caa65c3326ccd0835da8c394&units=imperial`);
         //cal current date and time
+        let milliseconds = weatherData.data.current.dt * 1000;
+        weatherData.data.currentTime = milliseconds;
         let localOffset = new Date().getTimezoneOffset() + 60000;
-        let utc = weatherData.data.current.dt + 1000 + localOffset;
-        weatherData.data.currentTime = utc + 1000 * weatherData.data.timezone_offset;
+        // let utc = weatherData.data.current.dt + 1000 + localOffset;
+        // weatherData.data.currentTime = utc + 1000 * weatherData.data.timezone_offset;
 
         //cal hourly weather offset
         weatherData.data.hourly.forEach((hour) => {
